@@ -51,48 +51,44 @@ public class Implementacion_modelo_DOM {
                 LOG.severe(e.getMessage());
             }
         }
-
-        // Esta función se llama recursivamente
         private static void visitChildNodes(NodeList nList) {
-            int x1 = 0; //posición x1
-            int y1 = 0; //posición y1
-            int x2 = 0; //posición x1
-            int y2 = 0; //posición y1
-            int height = 0; //alto
-            int width = 0; //ancho
-            double dist = 0; //distancia entre x y
-            final double pi = 3.14159; //constante pi
-            int r = 0; //radio del circulo
+            int x1 = 0;
+            int y1 = 0;
+            int x2 = 0;
+            int y2 = 0;
+            int largo = 0;
+            int ancho = 0;
+            double distancia = 0;
+            final double pi = 3.14159;
+            int r = 0;
             double area = 0, perimetro = 0;
             for (int temp = 0; temp < nList.getLength(); temp++) {
                 Node node = nList.item(temp);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    System.out.println("Node Name = " + node.getNodeName() //Nombre del nodo
+                    System.out.println("Node Name = " + node.getNodeName()
                             + "; Value = " + node.getTextContent());
-                    // Comprobar todos los atributos
                     if (node.hasAttributes()) {
-                        // obtener nombres y valores de atributos
                         NamedNodeMap nodeMap = node.getAttributes();
                         for (int i = 0; i < nodeMap.getLength(); i++) {
                             Node tempNode = nodeMap.item(i);
-                            System.out.println("Attr name : " + tempNode.getNodeName() //atributo
-                                    + "; Value = " + tempNode.getNodeValue()/*valor del atributo*/);
-                            if (node.getNodeName() == "rect") { //guardar los valores de los atributos si corresponde a una recta
-                                if (tempNode.getNodeName() == "height") //Guardar altura
-                                    height = Integer.parseInt(tempNode.getNodeValue());
-                                if (tempNode.getNodeName() == "width") //guardar ancho
-                                    width = Integer.parseInt(tempNode.getNodeValue());
-                            } else if (node.getNodeName() == "circle") { //guardar atributos si corresponde a un circulo
-                                if (tempNode.getNodeName() == "r") //Guardar radio
+                            System.out.println("Attr name : " + tempNode.getNodeName()
+                                    + "; Value = " + tempNode.getNodeValue());
+                            if (node.getNodeName() == "rect") {
+                                if (tempNode.getNodeName() == "largo")
+                                    largo = Integer.parseInt(tempNode.getNodeValue());
+                                if (tempNode.getNodeName() == "width")
+                                    ancho = Integer.parseInt(tempNode.getNodeValue());
+                            } else if (node.getNodeName() == "circle") {
+                                if (tempNode.getNodeName() == "r")
                                     r = Integer.parseInt(tempNode.getNodeValue());
-                            } else if (node.getNodeName() == "line") { //guardar valores de la linea
-                                if (tempNode.getNodeName() == "x1") //guardar x1
+                            } else if (node.getNodeName() == "line") {
+                                if (tempNode.getNodeName() == "x1")
                                     x1 = Integer.parseInt(tempNode.getNodeValue());
-                                if (tempNode.getNodeName() == "x2") //guardar x2
+                                if (tempNode.getNodeName() == "x2")
                                     x2 = Integer.parseInt(tempNode.getNodeValue());
-                                if (tempNode.getNodeName() == "y1") //guardar y1
+                                if (tempNode.getNodeName() == "y1")
                                     y1 = Integer.parseInt(tempNode.getNodeValue());
-                                if (tempNode.getNodeName() == "y2") //guardar y2
+                                if (tempNode.getNodeName() == "y2")
                                     y2 = Integer.parseInt(tempNode.getNodeValue());
                             }
                         }
@@ -100,20 +96,20 @@ public class Implementacion_modelo_DOM {
                             visitChildNodes(node.getChildNodes());
                         }
                     }
-                    if (node.getNodeName() == "rect") {
-                        perimetro = (2 * width) + (2 * height);
-                        System.out.println("->Perimetro: " + perimetro);
-                        area = width * height;
+                    if (node.getNodeName() == "r") {
+                        perimetro = (2 * ancho) + (2 * largo);
+                        System.out.println("->perimetro: " + perimetro);
+                        area = ancho * largo;
                         System.out.println("->Area: " + area);
 
-                    } else if (node.getNodeName() == "circle") {
+                    } else if (node.getNodeName() == "circulo") {
                         perimetro = 2 * pi * r;
-                        System.out.println("->Perimetro: " + perimetro);
+                        System.out.println("->perimetro: " + perimetro);
                         area = pi * Math.pow(r, 2);
-                        System.out.println("->Area: " + area);
+                        System.out.println("->area: " + area);
                     } else if (node.getNodeName() == "line") {
-                        dist = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
-                        System.out.println("->Distancia: " + dist);
+                        distancia = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+                        System.out.println("->distancia: " + distancia);
                     }
                 }
             }
